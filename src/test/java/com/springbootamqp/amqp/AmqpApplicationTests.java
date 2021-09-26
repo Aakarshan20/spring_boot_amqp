@@ -2,6 +2,7 @@ package com.springbootamqp.amqp;
 
 import com.springbootamqp.amqp.bean.Book;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,9 @@ class AmqpApplicationTests {
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    AmqpAdmin amqpAdmin;
 
     @Test
     void contextLoads() {
@@ -38,6 +42,25 @@ class AmqpApplicationTests {
         Object object = rabbitTemplate.receiveAndConvert("US.news");
         System.out.println(object.getClass());
         System.out.println(object);
+    }
+
+    /**
+     * 管理組件
+     */
+    @Test
+    void testAmqpAdmin(){
+        /*
+        amqpAdmin.declareExchange(new DirectExchange("amqpAdmin.excahnge.direct"));
+        amqpAdmin.declareExchange(new FanoutExchange("amqpAdmin.excahnge.fanout"));
+        amqpAdmin.declareExchange(new TopicExchange("amqpAdmin.excahnge.topic"));
+        amqpAdmin.declareQueue(new Queue("amqpAdmin.queuel", true));
+         */
+        //amqpAdmin.declareBinding(new Binding("amqpAdmin.queuel", Binding.DestinationType.QUEUE,"amqpAdmin.excahnge.direct","amqpAdmin.excahnge.direct",null));
+        //amqpAdmin.removeBinding(new Binding("amqpAdmin.queuel", Binding.DestinationType.QUEUE,"amqpAdmin.excahnge.direct","amqpAdmin.excahnge.direct",null));
+        amqpAdmin.deleteExchange("amqpAdmin.excahnge.direct");
+        amqpAdmin.deleteExchange("amqpAdmin.excahnge.fanout");
+        amqpAdmin.deleteExchange("amqpAdmin.excahnge.topic");
+        amqpAdmin.deleteQueue("amqpAdmin.queuel");
     }
 
 }
