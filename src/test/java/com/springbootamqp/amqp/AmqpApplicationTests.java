@@ -23,4 +23,21 @@ class AmqpApplicationTests {
 
     }
 
+    /**
+     * 廣播
+     */
+    @Test
+    void contextLoadsFanout() {
+        // 發送一個Object
+        rabbitTemplate.convertAndSend("exchange.fanout", "", new Book("七龍珠2","鳥山明"));
+
+    }
+
+    @Test
+    void receive(){
+        Object object = rabbitTemplate.receiveAndConvert("US.news");
+        System.out.println(object.getClass());
+        System.out.println(object);
+    }
+
 }
